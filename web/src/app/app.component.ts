@@ -27,6 +27,9 @@ export class AppComponent {
 
   }
   ngOnInit(): void {
+    if (/Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent)) {
+      this.msg.info('建议使用chrome浏览器访问',{nzDuration:5000});
+    } //判断是否Safari浏览器
     this.userName = this.user.getUserName();
     this.unsubscribe.sub0 = this.broadcaster.on("refreshUser").subscribe(() => {
       this.userName = this.user.getUserName();

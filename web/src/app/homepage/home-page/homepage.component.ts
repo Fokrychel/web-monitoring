@@ -24,20 +24,20 @@ export class HomepageComponent implements OnInit {
   };
   isVisible_login: boolean = false;
   isVisible_register: boolean = false;
-  isLogin:boolean=false;
+  isLogin: boolean = false;
   constructor(
     private http: HttpClient,
     private msg: NzMessageService,
     private router: Router,
     private cookie: CookieService,
-    private user:UserService,
-    private broadcaster:Broadcaster
+    private user: UserService,
+    private broadcaster: Broadcaster
   ) { }
 
   ngOnInit() {
-    setTimeout(()=>{
-      this.isLogin=this.user.getToken()?true:false;
-    },1000)
+    setTimeout(() => {
+      this.isLogin = this.user.getToken() ? true : false;
+    }, 1000)
     let temp: any = document.querySelector("#video-index");
     temp.style = `width:100%;height:auto;`;
   }
