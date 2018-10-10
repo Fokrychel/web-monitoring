@@ -1,0 +1,35 @@
+﻿tfs:
+hb Like1river2east!
+
+
+hooxx:
+hbpersonal@163.com 9355814
+
+
+阿里云：
+heavenwing@aliyun.com  itke-admin
+
+oss:
+AccessKeyID：
+LTAIISqyAfxicVZg
+
+AccessKeySecret：
+Kr77CXBa5LivWpaVZ7swGTF7esJXTb
+
+远程服务器：
+dev.itke.com.cn 55461  administrator Flzx3000c,ysyhl9T.
+
+FileZilla:
+dev.itke.com.cn 2121  admin itke-admin
+
+清华的阿里云账号
+账号：bepas_tsinghua
+密码：tsinghua_bepas
+
+公司git.ike-global.com
+hb  hubing
+
+
+小程序：wxf699c29597e44505
+
+
