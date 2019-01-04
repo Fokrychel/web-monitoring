@@ -1,113 +1,398 @@
-# web-monitoring
+# Markdown For Typora
 
-###  [功能列表]
+## Overview
 
-- [x] 允许用户创建多个监测站点
-- [x] 从不同维度统计用户访问情况
-- [x] 自定义查询时间
-- [x] 多种图表展示
-- [x] 支持自定义上报（js错误，api请求）
-- [ ] 自定义阈值
-- [ ] 自动报警功能
+**Markdown** is created by [Daring Fireball](http://daringfireball.net/), the original guideline is [here](http://daringfireball.net/projects/markdown/syntax). Its syntax, however, varies between different parsers or editors. **Typora** is using [GitHub Flavored Markdown][GFM]. 
 
-------
-###  [技术支持]
+*Outline*
 
-- [x] 前端：Angular5+,ant-design
-- [x] 后端：Nodejs+Express
-- [x] 数据库：MondoDB
+[TOC]
 
+## Block Elements
 
-------
-前端监控平台专注于 Web 端体验数据监控。监测 Web 页面的健康度的三个方面：
-> * 页面打开速度（测速）
-> * 页面稳定性（JS Error）
-> * 外部服务调用成功率（API）
+### Paragraph and line breaks
 
-然后从不同纬度去分析用户体验。
+A paragraph is simply one or more consecutive lines of text. In markdown source code, paragraphs are separated by more than one blank lines. In Typora, you only need to press `Return` to create a new paragraph.
 
- >  - 访问页面
- >  - 访问速度
- >  - API请求
- >  - 地理
- >  - 终端
- 
+Press `Shift` + `Return` to create a single line break. However, most markdown parser will ignore single line break, to make other markdown parsers recognize your line break, you can leave two whitespace at the end of the line, or insert `<br/>`.
 
+### Headers
 
-参考：
->  http://fex.baidu.com/blog/2014/05/build-performance-monitor-in-7-days
+Headers use 1-6 hash characters at the start of the line, corresponding to header levels 1-6. For example:
 
->  阿里云前端监控
+```markdown
+# This is an H1
 
+## This is an H2
 
-### 页面打开速度
-
-网络耗时数据可以借助前面提到 Navigation Timing 接口获取，与之类似的还有Resource Timing,可以获取页面所有静态资源的加载耗时。通过此接口可以轻松获取 DNS、TCP、首字节、html 传输等耗时，Navigation Timing 的接口示意图如下所示：
-
-![file-list](https://github.com/kisslove/web-front-end-monitoring/blob/master/Demo/timing.png)
-
-
-### API请求
-
-默认情况下，使用XMLHTTP拦截用户请求，在请求成功/失败后，统计时间，上报请求。
-用户可使用**__ml.api(success, time, code, msg)**手动上报。
-```javascript
- success:上传是否成功(true/false )
- time:耗时(ms)
- code:返回码
- msg:消息(string/object)
+###### This is an H6
 ```
-### JS错误
 
-默认情况下，使用window.onError去监听用户错误脚本，自动上报。
-用户使用的有些前端框架会捕获js错误，错误信息不会抛至window.onError,这种情况需用户手动调用。
-例如在Angular2+，在你的框架全局捕获错误的地方调用**__ml.error(errorObj)**
-```javascript
-  export class MyErrorHandler implements ErrorHandler {
-      handleError(error) {
-        console.error(error);
-        window.__ml && window.__ml.error && window.__ml.error(error.stack ||     error);
-      }
-    }
-    @NgModule({
-      declarations: [],
-      imports: [],
-      providers: [{ provide: ErrorHandler, useClass: MyErrorHandler }],
-      bootstrap: []
-    })
-    export class AppModule { }
+In typora, input ‘#’s followed by title content, and press `Return` key will create a header.
+
+### Blockquotes
+
+Markdown uses email-style > characters for block quoting. They are presented as:
+
+```markdown
+> This is a blockquote with two paragraphs. This is first paragraph.
+>
+> This is second pragraph.Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.
+
+
+
+> This is another blockquote with one paragraph. There is three empty line to seperate two blockquote.
 ```
-在Vue:
-```javascript
-import Vue from 'vue'
-const errorHandler = (error, vm)=>{
- console.error(error);
- window.__ml && window.__ml.error && window.__ml.error(error);
+
+In typora, just input ‘>’ followed by quote contents a block quote is  generated. Typora will insert proper ‘>’ or line break for you. Block quote inside anther block quote is allowed by adding additional levels of ‘>’. 
+
+### Lists
+
+Input `* list item 1` will create an un-ordered list, the `*` symbol can be replace with `+` or `-`. 
+
+Input `1. list item 1` will create an ordered list, their markdown source code is like:
+
+```markdown
+## un-ordered list
+*   Red
+*   Green
+*   Blue
+
+## ordered list
+1.  Red
+2. 	Green
+3.	Blue
+```
+
+### Task List
+
+Task lists are lists with items marked as either [ ] or [x] (incomplete or complete). For example:
+
+```markdown
+- [ ] a task list item
+- [ ] list syntax required
+- [ ] normal **formatting**, @mentions, #1234 refs
+- [ ] incomplete
+- [x] completed
+```
+
+You can change the complete/incomplete state by click the checkbox before the item.
+
+### (Fenced) Code Blocks
+
+Typora only support fences in Github Flavored Markdown. Original code blocks in markdown is not supported.
+
+Using fences is easy: Input \`\`\` and press `return`. Add an optional language identifier after \`\`\` and we'll run it through syntax highlighting:
+
+~~~gfm
+Here's an example:
+
+```
+function test() {
+  console.log("notice the blank line before this function?");
 }
-Vue.config.errorHandler = errorHandler;
-Vue.prototype.$throw = (error)=> errorHandler(error,this);
 ```
-### 如何使用(easy!!!)  
 
-网页地址：<a href="http://hubing.online" target="_blank">WEB-MONITOR</a>
+syntax highlighting:
+```ruby
+require 'redcarpet'
+markdown = Redcarpet.new("Hello World!")
+puts markdown.to_html
+```
+~~~
 
-第一步：在监控站点中创建一个站点。
+### Math Blocks
 
-![file-list](https://github.com/kisslove/web-front-end-monitoring/blob/master/Demo/demo1.png)
+You can render *LaTeX* mathematical expressions using **MathJax**.
 
-第二步：复制应用配置中的探针到你需要监控的站点（index.html）页面。大功告成！
+Input `$$`, then press 'Return' key will trigger an input field which accept *Tex/LaTex* source. Following is an example:
+$$
+\mathbf{V}_1 \times \mathbf{V}_2 =  \begin{vmatrix} 
+\mathbf{i} & \mathbf{j} & \mathbf{k} \\
+\frac{\partial X}{\partial u} &  \frac{\partial Y}{\partial u} & 0 \\
+\frac{\partial X}{\partial v} &  \frac{\partial Y}{\partial v} & 0 \\
+\end{vmatrix}
+$$
+In markdown source file, math block is *LaTeX* expression wrapped by ‘$$’ mark:
 
-![file-list](https://github.com/kisslove/web-front-end-monitoring/blob/master/Demo/demo2.png)
+```markdown
+$$
+\mathbf{V}_1 \times \mathbf{V}_2 =  \begin{vmatrix} 
+\mathbf{i} & \mathbf{j} & \mathbf{k} \\
+\frac{\partial X}{\partial u} &  \frac{\partial Y}{\partial u} & 0 \\
+\frac{\partial X}{\partial v} &  \frac{\partial Y}{\partial v} & 0 \\
+\end{vmatrix}
+$$
+```
 
-### 贡献者支持
+### Tables
 
-您的支持，是我们最大的前进动力。
+Input `| First Header  | Second Header |` and press `return` key will create a table with two column.
 
-支付宝：
+After table is created, focus on that table will pop up a toolbar for table, where you can resize, align, or delete table. You can also use context menu to copy and add/delete column/row.
 
-![file-list](https://github.com/kisslove/web-front-end-monitoring/blob/master/Demo/zhifubao.png)
+Following descriptions can be skipped, as markdown source code for tables are generated by typora automatically.
 
-微信：
+In markdown source code, they look like:
 
-![file-list](https://github.com/kisslove/web-front-end-monitoring/blob/master/Demo/weixin.png)
+```markdown
+| First Header  | Second Header |
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
+```
 
+You can also include inline Markdown such as links, bold, italics, or strikethrough.
+
+Finally, by including colons : within the header row, you can define text to be left-aligned, right-aligned, or center-aligned:
+
+```markdown
+| Left-Aligned  | Center Aligned  | Right Aligned |
+| :------------ |:---------------:| -----:|
+| col 3 is      | some wordy text | $1600 |
+| col 2 is      | centered        |   $12 |
+| zebra stripes | are neat        |    $1 |
+```
+
+A colon on the left-most side indicates a left-aligned column; a colon on the right-most side indicates a right-aligned column; a colon on both sides indicates a center-aligned column.
+
+### Footnotes
+
+```markdown
+You can create footnotes like this[^footnote].
+
+[^footnote]: Here is the *text* of the **footnote**.
+```
+
+will produce:
+
+You can create footnotes like this[^footnote].
+
+[^footnote]: Here is the *text* of the **footnote**.
+
+Mouse on the ‘footnote’ superscript to see content of the footnote.
+
+### Horizontal Rules
+
+Input `***` or `---` on a blank line and press `return` will draw a horizontal line.
+
+------
+
+### YAML Front Matter
+
+Typora support [YAML Front Matter](http://jekyllrb.com/docs/frontmatter/) now. Input `---` at the top of the article and then press `Enter` will introduce one. Or insert one metadata block from the menu.
+
+### Table of Contents (TOC)
+
+Input `[toc]` then press `Return` key will create a section for “Table of Contents” extracting all headers from one’s writing, its contents will be updated automatically. 
+
+### Diagrams (Sequence, Flowchart and Mermaid)
+
+Typora supports, [sequence](https://bramp.github.io/js-sequence-diagrams/), [flowchart](http://flowchart.js.org/) and [mermaid](https://knsv.github.io/mermaid/#mermaid), after this feature is enabled from preference panel.
+
+See this [document](http://support.typora.io/Draw-Diagrams-With-Markdown/) for detail.
+
+## Span Elements
+
+Span elements will be parsed and rendered right after your typing. Moving cursor in middle of those span elements will expand those elements into markdown source. Following will explain the syntax of those span element.
+
+### Links
+
+Markdown supports two style of links: inline and reference.
+
+In both styles, the link text is delimited by [square brackets].
+
+To create an inline link, use a set of regular parentheses immediately after the link text’s closing square bracket. Inside the parentheses, put the URL where you want the link to point, along with an optional title for the link, surrounded in quotes. For example:
+
+```markdown
+This is [an example](http://example.com/ "Title") inline link.
+
+[This link](http://example.net/) has no title attribute.
+```
+
+will produce:
+
+This is [an example](http://example.com/"Title") inline link. (`<p>This is <a href="http://example.com/" title="Title">`)
+
+[This link](http://example.net/) has no title attribute. (`<p><a href="http://example.net/">This link</a> has no`)
+
+#### Internal Links
+
+**You can set the href to headers**, which will create a bookmark that allow you to jump to that section after clicking. For example:
+
+Command(on Windows: Ctrl) + Click [This link](#block-elements) will jump to header `Block Elements`. To see how to write that, please move cursor or click that link with `⌘` key pressed to expand the element into markdown source.
+
+#### Reference Links 
+
+Reference-style links use a second set of square brackets, inside which you place a label of your choosing to identify the link:
+
+```markdown
+This is [an example][id] reference-style link.
+
+Then, anywhere in the document, you define your link label like this, on a line by itself:
+
+[id]: http://example.com/  "Optional Title Here"
+```
+
+In typora, they will be rendered like:
+
+This is [an example][id] reference-style link.
+
+[id]: http://example.com/	"Optional Title Here"
+
+The implicit link name shortcut allows you to omit the name of the link, in which case the link text itself is used as the name. Just use an empty set of square brackets — e.g., to link the word “Google” to the google.com web site, you could simply write:
+
+```markdown
+[Google][]
+And then define the link:
+
+[Google]: http://google.com/
+```
+
+In typora click link will expand it for editing, command+click will open the hyperlink in web browser.
+
+### URLs
+
+Typora allows you to insert urls as links, wrapped by `<`brackets`>`.
+
+`<i@typora.io>` becomes <i@typora.io>.
+
+Typora will aslo auto link standard URLs. e.g: www.google.com.
+
+### Images
+
+Image looks similar with links, but it requires an additional `!` char before the start of link. Image syntax looks like this:
+
+```markdown
+![Alt text](/path/to/img.jpg)
+
+![Alt text](/path/to/img.jpg "Optional title")
+```
+
+You are able to use drag & drop to insert image from image file or we browser. And modify the markdown source code by clicking on the image. Relative path will be used if image is in same directory or sub-directory with current editing document when drag & drop.
+
+For more tips on images, please read <http://support.typora.io//Images/>
+
+### Emphasis
+
+Markdown treats asterisks (`*`) and underscores (`_`) as indicators of emphasis. Text wrapped with one `*` or `_` will be wrapped with an HTML `<em>` tag. E.g:
+
+```markdown
+*single asterisks*
+
+_single underscores_
+```
+
+output: 
+
+*single asterisks*
+
+_single underscores_
+
+GFM will ignores underscores in words, which is commonly used in code and names, like this:
+
+> wow_great_stuff
+>
+> do_this_and_do_that_and_another_thing.
+
+To produce a literal asterisk or underscore at a position where it would otherwise be used as an emphasis delimiter, you can backslash escape it:
+
+```markdown
+\*this text is surrounded by literal asterisks\*
+```
+
+Typora recommends to use `*` symbol.
+
+### Strong
+
+double *’s or _’s will be wrapped with an HTML `<strong>` tag, e.g:
+
+```markdown
+**double asterisks**
+
+__double underscores__
+```
+
+output:
+
+**double asterisks**
+
+__double underscores__
+
+Typora recommends to use `**` symbol.
+
+### Code
+
+To indicate a span of code, wrap it with backtick quotes (`). Unlike a pre-formatted code block, a code span indicates code within a normal paragraph. For example:
+
+```markdown
+Use the `printf()` function.
+```
+
+will produce:
+
+Use the `printf()` function.
+
+### Strikethrough
+
+GFM adds syntax to create strikethrough text, which is missing from standard Markdown.
+
+`~~Mistaken text.~~` becomes ~~Mistaken text.~~
+
+### Underline
+
+Underline is powered by raw HTML.
+
+`<u>Underline</u>` becomes <u>Underline</u>.
+
+### Emoji :smile:
+
+Input emoji with syntax `:smile:`. 
+
+User can trigger auto-complete suggestions for emoji by pressing `ESC` key, or trigger it automatically after enable it on preference panel. Also, input UTF8 emoji char directly from `Edit` -> `Emoji & Symbols` from menu bar is also supported. 
+
+### Inline Math
+
+To use this feature, first, please enable it in `Preference` Panel -> `Markdown` Tab. Then use `$` to wrap TeX command, for example: `$\lim_{x \to \infty} \exp(-x) = 0$` will be rendered as LaTeX command. 
+
+To trigger inline preview for inline math: input “$”, then press `ESC` key, then input TeX command, a preview tooltip will be visible like below:
+
+<img src="http://typora.io/img/inline-math.gif" style="zoom:50%;" />
+
+### Subscript
+
+To use this feature, first, please enable it in `Preference` Panel -> `Markdown` Tab. Then use `~` to wrap subscript content, for example: `H~2~O`, `X~long\ text~`/
+
+### Superscript
+
+To use this feature, first, please enable it in `Preference` Panel -> `Markdown` Tab. Then use `^` to wrap superscript content, for example: `X^2^`.
+
+### Highlight
+
+To use this feature, first, please enable it in `Preference` Panel -> `Markdown` Tab. Then use `==` to wrap higglighted content, for example: `==highlight==`. 
+
+## HTML
+
+You could use HTML to style content what pure Markdown does not support, for example, use `<span style="color:red">this text is red</span>` to add text with red color.
+
+### Embed Contents
+
+Some websites provide iframe-based embed code which you could also paste into Typora, for example:
+
+```Markdown
+<iframe height='265' scrolling='no' title='Fancy Animated SVG Menu' src='http://codepen.io/jeangontijo/embed/OxVywj/?height=265&theme-id=0&default-tab=css,result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'></iframe>
+```
+
+### Video
+
+You could use the `<video>` HTML tag to embed videos, for example:
+
+```Markdown
+<video src="xxx.mp4" />
+```
+
+### Other HTML Support
+
+You could find details [here](http://support.typora.io/HTML/).
+
+[GFM]: https://help.github.com/articles/github-flavored-markdown/
